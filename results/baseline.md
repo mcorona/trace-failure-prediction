@@ -53,3 +53,17 @@ Univariado (AUROC dentro de (fold, t)): todas entre 0.47 y 0.50, salvo n_err_rec
 Sin mejora significativa frente a la iteración 1 (IC solapados).
 Hipótesis: la etiqueta acumulativa (y=1 para todo t >= mistake_step) no mide eventos
 del paso actual. Pendiente: etiqueta de evento y trazas exitosas.
+
+## Iteración 3: etiquetas de evento y ventana (AUROC agrupado OOF)
+
+| Etiqueta | Modelo | AUROC | Margen vs control, IC95% |
+|---|---|---|---|
+| Evento (11.5 % pos.) | Control `t` | 0.616 | — |
+| Evento | LogReg step | 0.774 | [0.104, 0.208] |
+| Evento | GBM step | 0.788 | [0.115, 0.222] |
+| Ventana (22.8 % pos.) | Control `t` | 0.567 | — |
+| Ventana | LogReg step | 0.627 | [-0.014, 0.120] |
+| Ventana | GBM step | 0.658 | [0.026, 0.151] |
+
+Con etiqueta de evento, las features del paso superan al control de posición. Con
+etiqueta de ventana, la señal es más débil. Pendiente: control de posición no lineal.
