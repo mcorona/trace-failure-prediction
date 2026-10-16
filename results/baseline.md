@@ -67,3 +67,32 @@ del paso actual. Pendiente: etiqueta de evento y trazas exitosas.
 
 Con etiqueta de evento, las features del paso superan al control de posición. Con
 etiqueta de ventana, la señal es más débil. Pendiente: control de posición no lineal.
+
+## Iteración 4: control no lineal de posición
+
+Control principal: one-hot de `t` (tasa base independiente por paso). Control adicional: GBM solo con `t`.
+Margen = AUROC del modelo − AUROC de one-hot, bootstrap por traza (300 réplicas).
+
+Etiqueta de evento (11.5 % pos.):
+
+| Modelo | AUROC pooled | Margen vs one-hot, IC95% |
+|---|---|---|
+| One-hot `t` (control) | 0.647 | — |
+| GBM solo `t` | 0.647 | [-0.002, +0.001] |
+| LogReg step | 0.774 | [+0.075, +0.182] |
+| GBM step | 0.788 | [+0.081, +0.192] |
+| GBM step + `t` | 0.800 | [+0.103, +0.209] |
+
+Etiqueta de ventana (22.8 % pos.):
+
+| Modelo | AUROC pooled | Margen vs one-hot, IC95% |
+|---|---|---|
+| One-hot `t` (control) | 0.584 | — |
+| GBM solo `t` | 0.584 | [-0.002, +0.003] |
+| LogReg step | 0.627 | [-0.012, +0.092] |
+| GBM step | 0.658 | [+0.030, +0.124] |
+| GBM step + `t` | 0.674 | [+0.047, +0.131] |
+
+Conclusión: con etiqueta de evento, las features del paso aportan señal más allá de la
+posición, incluso con un control no lineal. Con etiqueta de ventana, la señal es menor pero
+también excluye 0 en los modelos GBM.

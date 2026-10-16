@@ -7,7 +7,7 @@ dataset **Who&When** (Zhang et al., ICML 2025), subconjunto `Algorithm-Generated
 ## Resultado principal
 
 Con features del paso actual y etiqueta de **evento** (solo el paso `mistake_step`),
-el detector supera al control de posición por +0.12 a +0.22 AUROC (IC95% excluye 0).
+el detector supera al control no lineal de posición (one-hot de `t`) por +0.13 a +0.15 AUROC (IC95% excluye 0).
 Con la etiqueta **acumulativa** (todo `t >= mistake_step`), el AUROC global de ~0.80
 se explica casi por completo por el avance de la traza.
 
@@ -60,7 +60,7 @@ Etiquetas de evento y ventana (AUROC agrupado OOF):
 
 - 126 trazas, sin trazas exitosas: no es predicción real, es detección de un error ya visible.
 - Evaluación de evento agrupada (no dentro de `(fold, t)`) por falta de positivos por celda.
-- Control de posición lineal; falta un control no lineal.
+- Las features podrían codificar en parte la forma en que el anotador marcó el paso (ablación pendiente).
 - Las features de error pueden estar alineadas con la forma en que el anotador marcó el paso.
 - Evaluación limitada a `t <= 8` en el análisis acumulativo.
 
@@ -73,6 +73,7 @@ uv run python baseline.py             # OOF acumulativa
 uv run python within_fold_t.py        # AUROC dentro de (fold, t) + bootstrap
 uv run python evaluate_step.py        # step_features.csv + features del paso
 uv run python evaluate_event.py       # etiquetas evento y ventana vs control
+uv run python control_nonlinear.py    # control no lineal de posición (one-hot de t)
 ```
 
 Scripts `check_*.py`, `explore.py` y `within_t*.py` son exploratorios y registran los
@@ -80,6 +81,5 @@ pasos de verificación y la corrección del método (ver `results/baseline.md`).
 
 ## Próximos pasos
 
-1. Control de posición no lineal (p. ej. bins de `t` o splines) para validar el margen de evento.
-2. Ablación de features para identificar cuáles aportan en la etiqueta de evento.
-3. Trazas exitosas para tener negativos reales y evaluar predicción, no solo detección.
+1. Ablación de features para identificar cuáles aportan en la etiqueta de evento.
+2. Trazas exitosas para tener negativos reales y evaluar predicción, no solo detección.
