@@ -38,3 +38,18 @@ no hay evidencia de señal más allá de la posición. Hallazgo negativo, report
 uv run python build_prefixes.py
 uv run python baseline.py
 uv run python within_fold_t.py
+
+## Iteración 2: features del paso actual
+Features: last_exit_fail, last_err, last_is_terminal, sim_prev, same_agent_repeat,
+n_err_recent3, last_len. Mismo protocolo (dentro de (fold, t), bootstrap por traza).
+
+Univariado (AUROC dentro de (fold, t)): todas entre 0.47 y 0.50, salvo n_err_recent3 = 0.586.
+
+| Modelo | AUROC dentro de (fold, t) | IC95% |
+|---|---|---|
+| LogReg (step) | 0.578 | [0.435, 0.694] |
+| GBM (step) | 0.593 | [0.485, 0.701] |
+
+Sin mejora significativa frente a la iteración 1 (IC solapados).
+Hipótesis: la etiqueta acumulativa (y=1 para todo t >= mistake_step) no mide eventos
+del paso actual. Pendiente: etiqueta de evento y trazas exitosas.
